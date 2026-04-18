@@ -171,8 +171,48 @@
             #left, #right {
                 opacity: 0;
             }
+            body { 
+                height: 100dvh; 
+                overflow-x: hidden; 
+                display: flex; 
+                flex-direction: column; 
+            }
+            .label {
+                width: 280px; 
+                height: 300px;
+            }
+            .disk {
+                width: 280px; 
+                height: 280px; 
+            }
+            #mode { 
+                text-align: center; 
+                margin-top: -60px !important; 
+                font-size: 1.2rem; 
+                margin: 40px 0 20px 0;
+            }
+            .container {
+                margin-top: 60px;
+                gap: 20px;
+            }
+            .by, .artist {
+                font-size: 1.2rem; 
+                margin-top: -20px;
+            }
+            .timer p { 
+                font-size: 1.2rem; 
+                margin: 0; 
+            }
+            .album { 
+                transform: scale(0.65); 
+                margin: -35px 0; 
+            }
+            .next {
+                width: 40% !important;
+                padding: 12px 0;
+            }
         }
-        @media (min-width: 768px) and (max-width: 1500px) {
+        @media (min-width: 769px) and (max-width: 1500px) {
             #left, #right {
                 opacity: 0;
             }
