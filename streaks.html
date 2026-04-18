@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Syne:wght@400..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/scroll-bar.css">
+    <script src="js/bootstrap.min.js"></script>
+    <title>Streaks</title>
+    <style>
+        body {
+            transition: 0.3s ease-in-out;
+            opacity: 1;
+            font-family: "Outfit", sans-serif;
+            background: #520828;
+            margin: 0;
+            padding: 0;
+            color: white;
+            font-size: 20px;
+            overflow-x: hidden;
+            user-select: none; 
+            -webkit-tap-highlight-color: transparent;
+            cursor: pointer;
+        }
+        h1 {
+            font-family: "Syne", sans-serif;
+            font-size: 4rem;
+            font-weight: bolder;
+            margin: 100px 0 120px 0;
+        }
+        i {
+            margin: 40px 0 0 40px;
+            font-size: 40px;
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 998;
+            display: none;
+        }
+        .overlay.active {
+            display: block;
+        }
+        .fa-bars {
+            position: fixed;
+            top: 0;
+        }
+        .sidebar {
+            position: fixed;
+            left: -420px;
+            top: 0;
+            width: 400px;
+            height: 100vh;
+            background-color: #520828;
+            z-index: 999;
+            transition: 0.3s ease-in-out;
+            padding: 40px 20px;
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+        }
+        .sidebar.active {
+            left: 0;
+        }
+        .fa-bars.hidden {
+            visibility: hidden;
+        }
+        .sidebar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 0 20px;
+            margin-bottom: 40px;
+        }
+        .sidebar p {
+            font-weight: 600;
+            margin: 0; 
+            font-family: "Syne", sans-serif;
+        }
+        .fa-x {
+            font-size: 24px;
+            cursor: pointer;
+            margin: 0; 
+        }
+        .sidebar li {
+            width: 100%;
+            list-style: none;
+            padding: 16px 20px 16px 0;
+            cursor: pointer;
+        }
+        .sidebar li a {
+            width: 100%;
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+        .sidebar li:hover {
+            background-color: white;
+        }
+        .sidebar li:hover a {
+            color: #520828;
+        }
+        .fa-x {
+            cursor: pointer;
+            float: right;
+        }
+        nav ul li a {
+            padding: 20px 32px;
+            width: 100%;
+            font-size: 18px;
+            transition: 0.2s;
+        }
+        .disk-container {
+            display: flex;
+            gap: 60px;
+            text-align: center;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .disk {
+            display: flex;
+            gap: 40px;
+            flex-direction: column;
+        }
+        .disk img{
+            width: 320px;
+            height: 320px;
+            animation: rotate 8s linear infinite;
+        }
+        .disk img:hover {
+            animation-play-state: paused;
+        }
+        @keyframes rotate {
+            from { 
+                transform: rotate(0deg); 
+            }
+            to {
+                transform: rotate(360deg); 
+            }
+        }
+        @media (max-width: 768px) {
+            h1 {
+                margin: 140px 0 100px 0;
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay"></div>
+    <i class="fa-solid fa-bars"></i>
+    <nav>
+        <ul class="sidebar">
+            <div class="sidebar-header">
+                <p class="h2">VibeCheck</p>
+                <i class="fa-solid fa-x"></i>
+            </div>
+            <li><a href="leaderboards.html">Leaderboards</a></li>
+            <li><a href="game-modes.html">Game Modes</a></li>
+            <li><a href="streaks.html">Streaks</a></li>
+            <li><a href="mechanics.html">Mechanics</a></li>
+        </ul>
+    </nav>
+    <h1 class="text-center">Streaks</h1>
+    <div class="disk-container">
+        <div class="disk">
+            <img src="Assets/1 streak.png" alt="">
+            <div class="desc">
+                <h4>Requirements</h4>
+                <p>1 Streak</p>
+            </div>
+        </div>
+        <div class="disk">
+            <img src="Assets/10 streak.png" alt="">
+            <div class="desc">
+                <h4>Requirements</h4>
+                <p>10 Streaks</p>
+            </div>
+        </div>
+        <div class="disk">
+            <img src="Assets/20 streak.png" alt="">
+            <div class="desc">
+                <h4>Requirements</h4>
+                <p>20 Streaks</p>
+            </div>
+        </div>
+        <div class="disk">
+            <img src="Assets/50 streak.png" alt="">
+            <div class="desc">
+                <h4>Requirements</h4>
+                <p>50 Streaks</p>
+            </div>
+        </div>
+        <div class="disk">
+            <img src="Assets/100 streak.png" alt="">
+            <div class="desc">
+                <h4>Requirements</h4>
+                <p>100 Streaks</p>
+            </div>
+        </div>
+        <div class="disk">
+            <img src="Assets/200 streak.png" alt="">
+            <div class="desc">
+                <h4>Requirements</h4>
+                <p>200 Streaks</p>
+            </div>
+        </div>
+    </div>
+    <script>
+        const bars = document.querySelector('.fa-bars');
+        const xBtn = document.querySelector('.fa-x');
+        const sidebar = document.querySelector('.sidebar');
+        const overlay = document.querySelector('.overlay');
+        const muteBtn = document.getElementById('mute-btn');
+        const bgMusic = document.getElementById('bg-music');
+
+        let musicStarted = false;
+
+        bars.addEventListener('click', () => {
+            sidebar.classList.add('active');
+            overlay.classList.add('active');
+            bars.classList.add('hidden');
+        });
+
+        function closeNav() {
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+            bars.classList.remove('hidden');
+        }
+
+        xBtn.addEventListener('click', closeNav);
+        overlay.addEventListener('click', closeNav);
+    </script>
+</body>
+</html>

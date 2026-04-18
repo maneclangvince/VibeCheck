@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Syne:wght@400..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/scroll-bar.css">
+    <script src="js/bootstrap.min.js"></script>
+    <title>Answer</title>
+    <style>
+        body {
+            transition: 0.3s ease-in-out;
+            opacity: 1;
+            font-family: "Outfit", sans-serif;
+            background: #520828;
+            margin: 0;
+            padding: 0;
+            color: white;
+            font-size: 20px;
+            overflow-x: hidden;
+            user-select: none; 
+            -webkit-tap-highlight-color: transparent;
+            cursor: pointer;
+        }
+
+        h1 {
+            font-family: "Syne", sans-serif;
+            font-size: 6rem;
+            font-weight: 600;
+            margin: 0;
+            text-align: center;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            white-space: nowrap;
+            gap: 32px;
+            margin-top: 100px;
+        }
+        .album {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+        }
+        .label {
+            width: 260px;
+            height: 260px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 1px 0 12px #520828;
+        }
+        .disk {
+            z-index: -1;
+            width: 240px;
+            height: 240px;
+            margin-left: -120px;
+            animation: rotate 10s linear infinite;
+        }
+        .rewards {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: -4px;
+        }
+        .answer {
+            font-size: 1.8rem; 
+            margin-top: -20px;
+            font-weight: 600;
+        }
+        .artist, .by {
+            font-size: 1.5rem; 
+            margin-top: -40px;
+            font-weight: 400;
+        }
+        .by {
+            color: #c9c9c9;
+        }
+        .stats {
+            font-family: "Syne", sans-serif;
+            font-weight: 700;
+        }
+        .streaks {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+        }
+        .streaks img {
+            width: 60px;
+            height: 60px;
+        }
+        .streaks p {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+        .streak-disk {
+            animation: rotate 10s linear infinite;
+        }
+        .streak-hidden {
+            opacity: 0 !important;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        .desc {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-top: 60px;
+            gap: 20px;
+        }
+        #left {
+            left: -300px;
+            animation: rotate 10s linear infinite;
+        }
+        #right {
+            right: -300px;
+            animation: reversed 10s linear infinite;
+        }
+        .bg-disk {
+            position: fixed;
+            top: 16.5%;
+            z-index: -1;
+            transition: 0.3s ease-in-out; 
+        }
+        .next {
+            color: white;
+            background: #520828;
+            border: 2px solid white;
+            padding: 12px 0;
+            width: 15%;
+            text-align: center;
+            box-sizing: border-box;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: 0.3s ease-in-out;
+            text-decoration: none;
+        }
+        .next:hover {
+            color: #520828;
+            background: white;
+        }
+        @keyframes rotate {
+            from { 
+                transform: rotate(0deg); 
+            }
+            to {
+                transform: rotate(360deg); 
+            }
+        }
+        @keyframes reversed {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(-360deg);
+            }
+        }
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 3rem;
+            }
+            #left, #right {
+                opacity: 0;
+            }
+        }
+        @media (min-width: 768px) and (max-width: 1500px) {
+            #left, #right {
+                opacity: 0;
+            }
+        }
+    </style>    
+<body>
+    <div></div>
+    <img src="Assets/easy disk.png" alt="" class="bg-disk" id="right">
+    <img src="Assets/easy disk.png" alt="" class="bg-disk" id="left">
+    <div class="container">
+        <p class="h4 fw-light text-center" style="padding-top: 40px; margin: -100px 0 100px 0;" id="mode">VibeCheck: Easy Mode</p>
+        <p style="margin-bottom: -20px;" class="h4">The Answer is:</p>
+            <div class="album">
+                <img src="" style="background: white;" alt="" class="label">    
+                <img src="Assets/easy disk.png" alt="" class="disk">
+            </div>
+            <p class="answer">Answer</p>
+            <p class="by">By: <span class="artist">Artist</span></p>
+            <h3 class="stats">Correct Answer</h3>
+            <div class="rewards">
+                <p class="points">+<span>0</span> pts gained</p>
+                <div class="streaks">
+                    <img src="" alt="" class="streak-disk">
+                    <p>You are at <span>0</span> Streak</p>
+                </div>
+            </div>
+            
+            <a class="next" href="easy-rankings.html">Next</a>
+    </div>
+    <script src="data/easy-global.js"></script>
+    <script src="data/easy-local.js"></script>
+
+    <script src="gameplay/easy-mode.js"></script>
+
+    <script src="gameplay/easy-hint.js"></script>
+    <script src="gameplay/easy-answer-logic.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const gameMode = "easy";
+            const isCorrect = localStorage.getItem('isLastCorrect') === "true";
+            const correctSongName = localStorage.getItem('correctAnswer');
+
+            let finishedIndex = parseInt(localStorage.getItem(`${gameMode}_songIndex`)) || 0;
+            let nextSongNumber = finishedIndex + 1; 
+
+            const nextBtn = document.querySelector('.next');
+            const heading = document.querySelector('h1');
+
+            if (nextSongNumber <= 15) {
+                if (heading) heading.innerText = `Song ${nextSongNumber}/15`;
+            } else {
+                if (heading) heading.innerText = "Game Complete!";
+                if (nextBtn) {
+                    nextBtn.innerText = "View Rankings";
+                    nextBtn.href = "easy-rankings.html";
+                }
+                localStorage.setItem(`${gameMode}_songIndex`, 0);
+            }
+
+            const allSongs = typeof easyGlobalSongs !== 'undefined' ? [...easyGlobalSongs, ...easyLocalSongs] : [];
+            const foundSong = allSongs.find(s => s.name === correctSongName);
+
+            const albumImgDisplay = document.querySelector('.label');
+            const answerTextDisplay = document.querySelector('.answer');
+            const artistTextDisplay = document.querySelector('.artist');
+            const statusText = document.querySelector('.stats');
+
+            if (foundSong) {
+                if (answerTextDisplay) answerTextDisplay.innerText = foundSong.name;
+                if (artistTextDisplay) artistTextDisplay.innerText = foundSong.artist;
+
+                let finalPath = foundSong.label.replace('../', '');
+                if (albumImgDisplay) {
+                    albumImgDisplay.src = finalPath;
+                    albumImgDisplay.style.filter = "none";
+                    albumImgDisplay.style.opacity = "1";
+                }
+            }
+
+            if (isCorrect) {
+                if (statusText) {
+                    statusText.innerText = "Correct Answer!";
+                    statusText.style.color = "#9af59e";
+                }
+                
+                const pointsSpan = document.querySelector('.points span');
+                const streakSpan = document.querySelector('.streaks span');
+                if (pointsSpan) pointsSpan.innerText = localStorage.getItem('pointsGained') || 0;
+                
+                const currentStreak = parseInt(localStorage.getItem(`${gameMode}_currentStreak`)) || 0;
+                if (streakSpan) streakSpan.innerText = currentStreak;
+
+                const streakDiskImg = document.querySelector('.streak-disk');
+                let milestoneIcon = "1 streak.png"; 
+
+                if (streakDiskImg) streakDiskImg.src = `Assets/${milestoneIcon}`; 
+
+            } else {
+                if (statusText) {
+                    statusText.innerText = "Incorrect Answer";
+                    statusText.style.color = "#fac5c5";
+                }
+                const rewardsDiv = document.querySelector('.rewards');
+                if (rewardsDiv) rewardsDiv.style.display = "none";
+            }
+        });
+    </script>
+</body>
+</html>

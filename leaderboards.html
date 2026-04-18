@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Syne:wght@400..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/scroll-bar.css">
+    <script src="js/bootstrap.min.js"></script>
+    <title>Leaderboards</title>
+    <style>
+        body {
+            transition: 0.3s ease-in-out;
+            opacity: 1;
+            font-family: "Outfit", sans-serif;
+            background: #520828;
+            margin: 0;
+            padding: 0;
+            color: white;
+            font-size: 20px;
+            overflow-x: hidden;
+            user-select: none; 
+            -webkit-tap-highlight-color: transparent;
+            cursor: pointer;
+        }
+        h1 {
+            font-family: "Syne", sans-serif;
+            font-size: 4rem;
+            font-weight: bolder;
+            margin: 40px 0 20px 0;
+            padding-top: 80px;
+        }
+        i {
+            margin: 40px 0 0 40px;
+            font-size: 40px;
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 998;
+            display: none;
+        }
+        .overlay.active {
+            display: block;
+        }
+        .sidebar {
+            position: fixed;
+            left: -420px;
+            top: 0;
+            width: 400px;
+            height: 100vh;
+            background-color: #520828;
+            z-index: 999;
+            transition: 0.3s ease-in-out;
+            padding: 40px 20px;
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+        }
+        .sidebar.active {
+            left: 0;
+        }
+        .fa-bars {
+            position: fixed;
+            top: 0;
+        }
+        .fa-bars.hidden {
+            visibility: hidden;
+        }
+        .sidebar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 0 20px;
+            margin-bottom: 40px;
+        }
+        .sidebar p {
+            font-weight: 600;
+            margin: 0; 
+            font-family: "Syne", sans-serif;
+        }
+        .fa-x {
+            font-size: 24px;
+            cursor: pointer;
+            margin: 0; 
+        }
+        .sidebar li {
+            width: 100%;
+            list-style: none;
+            padding: 16px 20px 16px 0;
+            cursor: pointer;
+        }
+        .sidebar li a {
+            width: 100%;
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+        .sidebar li:hover {
+            background-color: white;
+        }
+        .sidebar li:hover a {
+            color: #520828;
+        }
+        .fa-x {
+            cursor: pointer;
+            float: right;
+        }
+        nav ul li a {
+            padding: 20px 32px;
+            width: 100%;
+            font-size: 18px;
+            transition: 0.2s;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+        .most-stats {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            gap: 40px;
+            list-style: none;
+        }
+        .most-stats a {
+            text-decoration: none;
+            color: white;
+        }
+        .most-stats a:hover {
+            text-decoration: underline 2px;
+        }
+        .leaderboard-container {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            width: 60%;
+            padding-bottom: 180px;
+        }
+        .leaderboards p {
+            margin: 0;
+        }
+        .leaderboards {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            width: 94%;
+        }
+        #your-point-leaderboards, #your-streak-leaderboards {
+            display: none;
+            width: 50%;
+            box-sizing: border-box;
+            z-index: 100;
+        }
+        .is-fixed {
+            display: flex !important;
+            position: fixed;
+            bottom: 40px;
+            left: 48.4%;
+            transform: translateX(-50%);
+        }
+        .rank {
+            color: white;
+            background: #520828;
+            border: 2px solid white;
+            width: 80%;
+            gap: 20px;
+            text-align: center;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+        #your-most-points, #your-most-streaks {
+            color: #520828;
+            background: white;
+            width: 80%;
+        }
+
+        .streaks, .your-streaks, .streak-display {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            text-align: left;
+        }
+        .streaks img, .your-streaks img, .streak-display img {
+            width: 40px;
+            height: 40px;
+        }
+        #left {
+            left: -300px;
+            animation: rotate 10s linear infinite;
+        }
+        #right {
+            right: -300px;
+            animation: reversed 10s linear infinite;
+        }
+        .disk {
+            position: fixed;
+            top: 16.5%;
+            z-index: -1;
+            transition: 0.3s ease-in-out; 
+        }
+        .streak-disk, .display-disk {
+            animation: rotate 10s linear infinite;
+        }
+        #container-streaks {
+            display: none;
+        }
+        .most-stats a.active {
+            text-decoration: none;
+            border-bottom: 2px solid white;
+            padding-bottom: 5px;
+            font-weight: 400;
+            color: white;
+        }
+        .most-stats a {
+            cursor: pointer;
+            transition: 0.2s;
+            border-bottom: 3px solid transparent;
+        }
+        #my-pts, #my-streak {
+            background: white;
+            color: #520828;
+        }
+        @keyframes rotate {
+            from { 
+                transform: rotate(0deg); 
+            }
+            to {
+                transform: rotate(360deg); 
+            }
+        }
+        @keyframes reversed {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(-360deg);
+            }
+        }
+        @media (max-width: 768px) {
+            body {
+            height: 100dvh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            }
+
+            #mode {
+            margin: 60px 0 !important;
+            font-size: 1.2rem;
+            }
+
+            h1 {
+            font-size: 2rem !important;
+            margin-top: 60px !important;
+            }
+
+            .container {
+            height: 80%;
+            margin: 0 !important;
+            padding: 10px;
+            gap: 20px;
+            flex-wrap: nowrap;
+            }
+
+            .leaderboard-container {
+            margin-bottom: 0 !important;
+            gap: 8px;
+            width: 95%;
+            }
+
+            .leaderboards {
+            gap: 15px;
+            width: 100%;
+            }
+
+            .leaderboards p.h3 {
+            font-size: 1.2rem;
+            }
+
+            .rank {
+            flex-direction: row !important;
+            padding: 10px !important;
+            gap: 10px;
+            width: 100%;
+            }
+
+            .rank h2 {
+            font-size: 1.2rem;
+            margin: 0;
+            }
+
+            .rank p {
+            font-size: 1rem;
+            margin: 0;
+            }
+            .streak-disk {
+                width: 20px !important;
+                height: 20px !important;
+            }
+            .streak-display img,
+            .streaks img {
+            width: 20px;
+            height: 20px;
+            }
+
+            .streak-display p,
+            .streaks p {
+            font-size: 1rem;
+            }
+
+            .next {
+            position: relative;
+            bottom: auto;
+            width: 40%;
+            padding: 10px 0;
+            margin: 10px auto !important;
+            font-size: 1rem;
+            }
+
+            #your-point-leaderboards, #your-streak-leaderboards {
+            display: none !important;
+            }
+
+            #left,
+            #right {
+            opacity: 0;
+            display: none;
+            }
+        }
+        @media (min-width: 769px) and (max-width: 1500px) {
+            #left, #right {
+                opacity: 0;
+            }
+            .leaderboard-container {
+                display: flex;
+                flex-direction: column;
+                gap: 40px;
+                width: 60%;
+                padding-bottom: 280px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <img src="Assets/home disk.png" alt="" class="disk" id="left">
+    <img src="Assets/home disk.png" alt="" class="disk" id="right">
+
+    <div class="overlay"></div>
+    <i class="fa-solid fa-bars"></i>
+    <nav>
+        <ul class="sidebar">
+            <div class="sidebar-header">
+                <p class="h2">VibeCheck</p>
+                <i class="fa-solid fa-x"></i>
+            </div>
+            <li><a href="leaderboards.html">Leaderboards</a></li>
+            <li><a href="game-modes.html">Game Modes</a></li>
+            <li><a href="streaks.html">Streaks</a></li>
+            <li><a href="mechanics.html">Mechanics</a></li>
+        </ul>
+    </nav>
+    <h1 class="text-center">Leaderboards</h1>
+    <div class="container">
+        <nav class="most-stats">
+            <li><a id="btn-points" class="active">Most Points</a></li>
+            <li><a id="btn-streaks">Most Streaks</a></li>
+        </nav>
+
+        <div class="leaderboard-container" id="container-points">
+            <div class="leaderboards">
+                <p class="h3">1</p>
+                <div class="rank d-flex flex-column flex-md-row justify-content-between align-items-center px-4 py-4" id="my-pts">                    
+                    <h2>Jolo</h2>
+                    <p><span class="total-pts">0</span> pt/s gained</p>
+                </div>
+            </div>
+            <div class="leaderboards">
+                <p class="h3">2</p>
+                <div class="rank d-flex flex-column flex-md-row justify-content-between align-items-center px-4 py-4">                    
+                    <h2>Austria</h2>
+                    <p>1000 pt/s gained</p>
+                </div>
+            </div>
+            <div class="leaderboards">
+                <p class="h3">3</p>
+                <div class="rank d-flex flex-column flex-md-row justify-content-between align-items-center px-4 py-4">                    
+                    <h2>Maneclang</h2>
+                    <p>1000 pt/s gained</p>
+                </div>
+            </div>
+            <div class="leaderboards">
+                <p class="h3">4</p>
+                <div class="rank d-flex flex-column flex-md-row justify-content-between align-items-center px-4 py-4">                    
+                    <h2>Morales</h2>
+                    <p>1000 pt/s gained</p>
+                </div>
+            </div>
+            <div class="leaderboards">
+                <p class="h3">5</p>
+                <div class="rank d-flex flex-column flex-md-row justify-content-between align-items-center px-4 py-4">                    
+                    <h2>Tunod</h2>
+                    <p>1000 pt/s gained</p>
+                </div>
+            </div>
+            <div class="leaderboards">
+                <p class="h3">6</p>
+                <div class="rank d-flex flex-column flex-md-row justify-content-between align-items-center px-4 py-4">                    
+                    <h2>Villarta</h2>
+                    <p>1000 pt/s gained</p>
+                </div>
+            </div>
+
+            <div class="leaderboards" id="your-point-leaderboards">
+                <p class="h3">1</p>
+                <div class="rank d-flex flex-column flex-md-row justify-content-between align-items-center px-4 py-4" id="your-most-points">
+                    <h2>Jolo</h2>
+                    <p><span class="total-pts">0</span> pt/s gained</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="leaderboard-container" id="container-streaks">
+            <div class="leaderboards">
+                <p class="h3">1</p>
+                <div class="rank d-flex flex-column flex-md-row justify-content-between align-items-center px-4 py-4" id="my-streak">                    
+                    <h2>Jolo</h2>
+                    <div class="streaks" id="streaks">
+                        <img src="" alt="" class="streak-disk">
+                        <p><span>0</span> Streak/s</p>
+                    </div>
+                </div>
+            </div>
+            <div class="leaderboards">
+                <p class="h3">2</p>
+                <div class="rank d-flex flex-column flex-md-row justify-content-between align-items-center px-4 py-4">                    
+                    <h2>Austria</h2>
+                    <div class="streak-display">
+                        <img src="Assets/10 streak.png" alt="" class="display-disk">
+                        <p><span>10</span> Streak/s</p>
+                    </div>
+                </div>
+            </div>
+            <div class="leaderboards">
+                <p class="h3">3</p>
+                <div class="rank d-flex flex-column flex-md-row justify-content-between align-items-center px-4 py-4">                    
+                    <h2>Maneclang</h2>
+                    <div class="streak-display">
+                        <img src="Assets/10 streak.png" alt="" class="display-disk">
+                        <p><span>10</span> Streak/s</p>
+                    </div>
+                </div>
+            </div>
+            <div class="leaderboards">
+                <p class="h3">4</p>
+                <div class="rank d-flex flex-column flex-md-row justify-content-between align-items-center px-4 py-4">                    
+                    <h2>Morales</h2>
+                    <div class="streak-display">
+                        <img src="Assets/10 streak.png" alt="" class="display-disk">
+                        <p><span>10</span> Streak/s</p>
+                    </div>
+                </div>
+            </div>
+            <div class="leaderboards">
+                <p class="h3">5</p>
+                <div class="rank d-flex flex-column flex-md-row justify-content-between align-items-center px-4 py-4">                    
+                    <h2>Tunod</h2>
+                    <div class="streak-display">
+                        <img src="Assets/10 streak.png" alt="" class="display-disk">
+                        <p><span>10</span> Streak/s</p>
+                    </div>
+                </div>
+            </div>
+            <div class="leaderboards">
+                <p class="h3">6</p>
+                <div class="rank d-flex flex-column flex-md-row justify-content-between align-items-center px-4 py-4">                    
+                    <h2>Villarta</h2>
+                    <div class="streak-display">
+                        <img src="Assets/10 streak.png" alt="" class="display-disk">
+                        <p><span>10</span> Streak/s</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="leaderboards" id="your-streak-leaderboards">
+                <p class="h3">1</p>
+                <div class="rank d-flex flex-column flex-md-row justify-content-between align-items-center px-4 py-4" id="your-most-streaks">
+                    <h2>Jolo</h2>
+                    <div class="your-streaks">
+                        <img src="" alt="" class="streak-disk">
+                        <p><span>0</span> Streak/s</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const bars = document.querySelector('.fa-bars');
+        const xBtn = document.querySelector('.fa-x');
+        const sidebar = document.querySelector('.sidebar');
+        const overlay = document.querySelector('.overlay');
+        const btnPoints = document.getElementById('btn-points');
+        const btnStreaks = document.getElementById('btn-streaks');
+        const contPoints = document.getElementById('container-points');
+        const contStreaks = document.getElementById('container-streaks');
+        const footerPoints = document.getElementById('your-point-leaderboards');
+        const footerStreaks = document.getElementById('your-streak-leaderboards');
+        
+        let musicStarted = false;
+
+        bars.addEventListener('click', () => {
+            sidebar.classList.add('active');
+            overlay.classList.add('active');
+            bars.classList.add('hidden');
+        });
+
+        function closeNav() {
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+            bars.classList.remove('hidden');
+        }
+
+        xBtn.addEventListener('click', closeNav);
+        overlay.addEventListener('click', closeNav);
+
+
+        btnPoints.addEventListener('click', () => {
+            btnPoints.classList.add('active');
+            btnStreaks.classList.remove('active');
+            contPoints.style.display = 'flex';
+            contStreaks.style.display = 'none';
+            footerPoints.classList.add('is-fixed');
+            footerStreaks.classList.remove('is-fixed');
+        });
+
+        btnStreaks.addEventListener('click', () => {
+            btnStreaks.classList.add('active');
+            btnPoints.classList.remove('active');
+            contStreaks.style.display = 'flex';
+            contPoints.style.display = 'none';
+            footerStreaks.classList.add('is-fixed');
+            footerPoints.classList.remove('is-fixed');
+        });
+
+        window.onload = () => {
+            footerPoints.classList.add('is-fixed');
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const totalPoints = localStorage.getItem('perm_totalScore') || 0;
+            const peakStreak = parseInt(localStorage.getItem('perm_peakStreak')) || 0;
+
+            document.querySelectorAll('.total-pts').forEach(el => el.innerText = totalPoints);
+
+            const streakContainers = document.querySelectorAll('.streaks, .your-streaks');
+            
+            streakContainers.forEach(container => {
+                const span = container.querySelector('span');
+                const img = container.querySelector('img');
+                
+                if (peakStreak < 1) {
+                    if (img) img.style.display = 'none';
+                    container.style.visibility = 'hidden'; 
+                } else {
+                    if (img) {
+                        img.style.display = 'block';
+
+                        let icon = "1 streak.png";
+                        if (peakStreak >= 200) icon = "200 streak.png";
+                        else if (peakStreak >= 100) icon = "100 streak.png";
+                        else if (peakStreak >= 50) icon = "50 streak.png";
+                        else if (peakStreak >= 20) icon = "20 streak.png";
+                        else if (peakStreak >= 10) icon = "10 streak.png";
+                        img.src = `Assets/${icon}`;
+                    }
+                    if (span) span.innerText = peakStreak;
+                    container.style.visibility = 'visible';
+                }
+            });
+
+            const footerStreaks = document.getElementById('your-streak-leaderboards');
+            if (peakStreak < 1 && footerStreaks) {
+                footerStreaks.classList.remove('is-fixed');
+                footerStreaks.style.display = 'none';
+            }
+
+            const gameMode = "easy";
+            const peakContainer = document.querySelector('.your-streaks');
+
+            if (peakStreak > 0) {
+                peakContainer.style.visibility = 'visible';
+                peakContainer.style.display = 'flex';
+                const span = peakContainer.querySelector('span');
+                if (span) span.innerText = peakStreak;
+            } else {
+                peakContainer.style.visibility = 'hidden';
+            }
+        });
+    </script>
+</body>
+</html>

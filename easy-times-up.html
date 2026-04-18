@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Syne:wght@400..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/scroll-bar.css">
+    <script src="js/bootstrap.min.js"></script>
+    <title>Time's Up</title>
+    <style>
+        body {
+            transition: 0.3s ease-in-out;
+            opacity: 1;
+            font-family: "Outfit", sans-serif;
+            background: #520828;
+            margin: 0;
+            padding: 0;
+            color: white;
+            font-size: 20px;
+            overflow-x: hidden;
+            user-select: none; 
+            -webkit-tap-highlight-color: transparent;
+            cursor: pointer;
+        }
+
+        h1 {
+            font-family: "Syne", sans-serif;
+            font-size: 6rem;
+            font-weight: 600;
+            margin: 0;
+            text-align: center;
+        }
+
+        .container {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            justify-content: center;
+            height:80vh;
+            flex-wrap: wrap;
+            box-sizing: border-box;
+        }
+        .desc {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-top: 60px;
+            gap: 20px;
+        }
+        #left {
+            left: -300px;
+            animation: rotate 10s linear infinite;
+        }
+        #right {
+            right: -300px;
+            animation: reversed 10s linear infinite;
+        }
+        .bg-disk {
+            position: fixed;
+            top: 16.5%;
+            z-index: -1;
+            transition: 0.3s ease-in-out; 
+        }
+        .next {
+            color: white;
+            background: #520828;
+            border: 2px solid white;
+            padding: 12px 0;
+            width: 60%;
+            text-align: center;
+            box-sizing: border-box;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: 0.3s ease-in-out;
+            text-decoration: none;
+        }
+        .next:hover {
+            color: #520828;
+            background: white;
+        }
+        @keyframes rotate {
+            from { 
+                transform: rotate(0deg); 
+            }
+            to {
+                transform: rotate(360deg); 
+            }
+        }
+        @keyframes reversed {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(-360deg);
+            }
+        }
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 3rem;
+            }
+            #left, #right {
+                opacity: 0;
+            }
+        }
+        @media (min-width: 768px) and (max-width: 1500px) {
+            #left, #right {
+                opacity: 0;
+            }
+        }
+    </style>    
+<body>
+    <p class="h4 fw-light text-center" style="padding-top: 40px;" id="mode">VibeCheck: Easy Mode</p>
+    <img src="Assets/easy disk.png" alt="" class="bg-disk" id="right">
+    <img src="Assets/easy disk.png" alt="" class="bg-disk" id="left">
+    <div class="container">
+        <div class="desc">
+            <h1 class="text-center">Time's Up</h1>
+            <a class="next" href="easy-answer.html">Next</a>
+        </div>
+    </div>
+    <script>
+        history.pushState(null, null, location.href);
+        window.onpopstate = function () {
+            history.go(1);
+        };
+
+        window.addEventListener('load', () => {
+            history.pushState(null, null, location.href);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Syne:wght@400..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/scroll-bar.css">
+    <script src="js/bootstrap.min.js"></script>
+    <title>Rankings</title>
+    <style>
+        body {
+            transition: 0.3s ease-in-out;
+            opacity: 1;
+            font-family: "Outfit", sans-serif;
+            background: #520828;
+            margin: 0;
+            padding: 0;
+            color: white;
+            font-size: 20px;
+            overflow-x: hidden;
+            user-select: none; 
+            -webkit-tap-highlight-color: transparent;
+            cursor: pointer;
+        }
+        h1 {
+            font-family: "Syne", sans-serif;
+            font-size: 4rem;
+            font-weight: bolder;
+            margin: 40px 0 20px 0;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+        .most-stats {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            gap: 40px;
+            list-style: none;
+        }
+        .most-stats a {
+            text-decoration: none;
+            color: white;
+        }
+        .most-stats a:hover {
+            text-decoration: underline 2px;
+        }
+        .leaderboard-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            width: 60%;
+            margin-bottom: 280px;
+        }
+        .leaderboards p {
+            margin: 0;
+        }
+        .leaderboards {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            width: 94%;
+        }
+        #your-point-leaderboards {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            bottom: 140px;
+            width: 50%;
+            box-sizing: border-box;
+            z-index: 100;
+        }
+        .rank {
+            color: white;
+            background: #520828;
+            border: 2px solid white;
+            width: 80%;
+            gap: 20px;
+            text-align: center;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+        #your-points {
+            width: 80%;
+        }
+        #your-rank, #your-points {
+            color: #520828;
+            background: white;
+        }
+        #your-point-leaderboards {
+            display: flex;
+            justify-content: center;
+        }
+        .streaks {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+            flex-direction: column;
+            text-align: left;
+        }
+        .streaks img, .your-streaks img, .streak-display img  {
+            width: 44px;
+            height: 44px;
+        }
+        .streaks p, .streak-display p {
+            font-size: 1.4rem;
+        }
+        .streak-hidden {
+            opacity: 0 !important;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        #left {
+            left: -300px;
+            animation: rotate 10s linear infinite;
+        }
+        #right {
+            right: -300px;
+            animation: reversed 10s linear infinite;
+        }
+        .disk {
+            position: fixed;
+            top: 16.5%;
+            z-index: -1;
+            transition: 0.3s ease-in-out; 
+        }
+        #container-streaks {
+            display: none;
+        }
+        .most-stats a.active {
+            text-decoration: none;
+            border-bottom: 2px solid white;
+            padding-bottom: 5px;
+            font-weight: 400;
+            color: white;
+        }
+        .most-stats a {
+            cursor: pointer;
+            transition: 0.2s;
+            border-bottom: 3px solid transparent;
+        }
+        .next {
+            color: white;
+            background: #520828;
+            border: 2px solid white;
+            padding: 12px 0;
+            margin-top: 240px;
+            width: 16%;
+            text-align: center;
+            box-sizing: border-box;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: 0.3s ease-in-out;
+            text-decoration: none;
+            position: fixed;
+            bottom: 40px;
+        }
+        .next:hover {
+            color: #520828;
+            background: white;
+        }
+        .streaks.none, .streak-display {
+            opacity: 0;
+        }
+        .streak-disk {
+            animation: rotate 10s linear infinite;
+        }
+        @keyframes rotate {
+            from { 
+                transform: rotate(0deg); 
+            }
+            to {
+                transform: rotate(360deg); 
+            }
+        }
+        @keyframes reversed {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(-360deg);
+            }
+        }
+        @media (max-width: 768px) {
+            body {
+            height: 100dvh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            }
+
+            #mode {
+            margin: 60px 0 !important;
+            font-size: 1.2rem;
+            }
+
+            h1 {
+            font-size: 2rem !important;
+            margin: -80px 0 0 0 !important;
+            }
+
+            .container {
+            height: 80%;
+            margin: 0 !important;
+            padding: 10px;
+            gap: 20px;
+            flex-wrap: nowrap;
+            }
+
+            .leaderboard-container {
+            margin-bottom: 0 !important;
+            gap: 8px;
+            width: 95%;
+            }
+
+            .leaderboards {
+            gap: 15px;
+            width: 100%;
+            }
+
+            .leaderboards p.h3 {
+            font-size: 1.2rem;
+            }
+
+            .rank {
+            flex-direction: row !important;
+            padding: 10px !important;
+            gap: 10px;
+            width: 100%;
+            }
+
+            .rank h2 {
+            font-size: 1.2rem;
+            margin: 0;
+            }
+
+            .rank p {
+            font-size: 1rem;
+            margin: 0;
+            }
+
+            .streak-display img,
+            .streaks img {
+            width: 30px;
+            height: 30px;
+            }
+
+            .streak-display p,
+            .streaks p {
+            font-size: 1rem;
+            }
+
+            .next {
+            position: relative;
+            bottom: auto;
+            width: 40%;
+            padding: 10px 0;
+            margin: 10px auto !important;
+            font-size: 1rem;
+            }
+
+            #your-point-leaderboards {
+            display: none !important;
+            }
+
+            #left,
+            #right {
+            opacity: 0;
+            display: none;
+            }
+        }
+        @media (min-width: 769px) and (max-width: 1500px) {
+            #left, #right {
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <p class="h4 fw-light text-center" style="margin: 40px 0;" id="mode">VibeCheck: Hard Mode</p>
+    <img src="Assets/hard disk.png" alt="" class="disk" id="left">
+    <img src="Assets/hard disk.png" alt="" class="disk" id="right">
+    <div class="container">
+        <h1 class="text-center">You are currently ranking #<span>1</span></h1>
+        <div class="leaderboard-container" id="container-points">
+            <div class="leaderboards" id="your-leaderboard">
+                <p class="h3"><span>1</span></p>
+                <div class="rank d-flex flex-column flex-md-row justify-content-between align-items-center px-4 py-4" id="your-rank">                    
+                    <h2>Jolo</h2>
+                    <p class="total-pts"><span>0</span> pt/s gained</p>
+                </div>
+                <div class="streaks">
+                    <img src="" alt="" class="streak-disk">
+                    <p class="streak-pts"><span>0</span></p>
+                </div>
+            </div>
+            <div class="leaderboards">
+                <p class="h3"><span>2</span></p>
+                <div class="rank d-flex flex-column flex-md-row justify-content-between align-items-center px-4 py-4" id="other-rank">                    
+                    <h2>Austria</h2>
+                    <p class="points"><span>0</span> pt/s gained</p>
+                </div>
+                <div class="streak-display">
+                    <img src="" alt="" class="disk-display">
+                    <p class="streak"><span>0</span></p>
+                </div>
+            </div>
+            <div class="leaderboards">
+                <p class="h3"><span>3</span></p>
+                <div class="rank d-flex flex-column flex-md-row justify-content-between align-items-center px-4 py-4" id="other-rank">                    
+                    <h2>Maneclang</h2>
+                    <p class="points"><span>0</span> pt/s gained</p>
+                </div>
+                <div class="streak-display">
+                    <img src="" alt="" class="disk-display">
+                    <p class="streak"><span>0</span></p>
+                </div>
+            </div>
+            <div class="leaderboards">
+                <p class="h3"><span>4</span></p>
+                <div class="rank d-flex flex-column flex-md-row justify-content-between align-items-center px-4 py-4" id="other-rank">                    
+                    <h2>Morales</h2>
+                    <p class="points"><span>0</span> pt/s gained</p>
+                </div>
+                <div class="streak-display">
+                    <img src="" alt="" class="disk-display">
+                    <p class="streak"><span>0</span></p>
+                </div>
+            </div>
+            <div class="leaderboards">
+                <p class="h3"><span>5</span></p>
+                <div class="rank d-flex flex-column flex-md-row justify-content-between align-items-center px-4 py-4" id="other-rank">                    
+                    <h2>Tunod</h2>
+                    <p class="points"><span>0</span> pt/s gained</p>
+                </div>
+                <div class="streak-display">
+                    <img src="" alt="" class="disk-display">
+                    <p class="streak"><span>0</span></p>
+                </div>
+            </div>
+            <div class="leaderboards">
+                <p class="h3"><span>6</span></p>
+                <div class="rank d-flex flex-column flex-md-row justify-content-between align-items-center px-4 py-4" id="other-rank">                    
+                    <h2>Villarta</h2>
+                    <p class="points"><span>0</span> pt/s gained</p>
+                </div>
+                <div class="streak-display">
+                    <img src="" alt="" class="disk-display">
+                    <p class="streak"><span>0</span></p>
+                </div>
+            </div>
+
+            <div class="leaderboards" id="your-point-leaderboards">
+                <p class="h3"><span>1</span></p>
+                <div class="rank d-flex flex-column flex-md-row justify-content-between align-items-center px-4 py-4" id="your-points">
+                    <h2>Jolo</h2>
+                    <p class="total-pts"><span>0</span> pt/s gained</p>
+                </div>
+                <div class="streaks">
+                    <img src="" alt="" class="streak-disk">
+                    <p class="streak-pts"><span>0</span></p>
+                </div>
+            </div>
+            <a class="next" href="hard-next-song.html">Next</a>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const gameMode = "hard";
+
+            const totalScore = localStorage.getItem(`${gameMode}_totalScore`) || 0;
+            const currentStreak = parseInt(localStorage.getItem(`${gameMode}_currentStreak`)) || 0;
+            const isCorrect = localStorage.getItem('isLastCorrect') === "true";
+
+            const scoreDisplays = document.querySelectorAll('.total-pts span');
+            const streakDisplays = document.querySelectorAll('.streak-pts span');
+            const streakIcons = document.querySelectorAll('.streak-disk');
+            const streakContainers = document.querySelectorAll('.streaks');
+
+            scoreDisplays.forEach(span => {
+                if (span.closest('#your-rank') || span.closest('#your-points')) {
+                    span.innerText = totalScore;
+                }
+            });
+
+            streakContainers.forEach(container => {
+                if (container.closest('#your-leaderboard') || container.closest('#your-point-leaderboards')) {
+
+                    if (currentStreak === 0 || !isCorrect) {
+                        container.classList.add('streak-hidden');
+                    } else {
+                        container.classList.remove('streak-hidden');
+
+                        const textSpan = container.querySelector('.streak-pts span');
+                        if (textSpan) textSpan.innerText = currentStreak;
+
+                        const img = container.querySelector('.streak-disk');
+                        if (img) {
+                            let milestoneIcon = "1 streak.png";
+
+                            img.src = `Assets/${milestoneIcon}`;
+                            img.style.opacity = "1";
+                            img.style.filter = "none";
+                        }
+                    }
+                }
+            });
+
+            const nextBtn = document.querySelector('.next');
+            if (nextBtn) {
+                nextBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    
+                    let currentIndex = parseInt(localStorage.getItem(`${gameMode}_songIndex`)) || 0;
+                    currentIndex++;
+
+                    if (currentIndex >= 15) {
+
+                        window.location.href = "hard-rewards.html";
+                    } else {
+                        localStorage.setItem(`${gameMode}_songIndex`, currentIndex);
+                        window.location.href = "hard-next-song.html";
+                    }
+                });
+            }
+        });
+
+        history.pushState(null, null, location.href);
+        window.onpopstate = function () {
+            history.go(1);
+        };
+
+        window.addEventListener('load', () => {
+            history.pushState(null, null, location.href);
+        });
+
+    </script>
+</body>
+</html>

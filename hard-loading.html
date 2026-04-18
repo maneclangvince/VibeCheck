@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Syne:wght@400..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/scroll-bar.css">
+    <script src="js/bootstrap.min.js"></script>
+    <title>Loading</title>
+    <style>
+        body {
+            transition: 0.3s ease-in-out;
+            opacity: 1;
+            font-family: "Outfit", sans-serif;
+            background: #520828;
+            margin: 0;
+            padding: 0;
+            color: white;
+            font-size: 20px;
+            overflow-x: hidden;
+            user-select: none; 
+            -webkit-tap-highlight-color: transparent;
+            cursor: pointer;
+        }
+
+        h1 {
+            font-family: "Syne", sans-serif;
+            font-size: 6rem;
+            font-weight: 600;
+            margin: 0;
+            text-align: center;
+        }
+
+        .container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            gap: 100px;
+            flex-wrap: wrap;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .disk {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .desc {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .disk img {
+            width: 90vw; 
+            max-width: 600px; 
+            height: auto;
+            animation: rotate 10s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { 
+                transform: rotate(0deg); 
+            }
+            to {
+                transform: rotate(360deg); 
+            }
+        }
+
+        @media (max-width: 992px) {
+            .container {
+                flex-direction: column;
+                gap: 80px;
+                justify-content: center;
+            }   
+            h1 {
+                order: 1;
+                font-size: 4rem;
+            }
+            .disk {
+                order: 3;
+            }
+            p {
+                order: 2;
+            }
+        }
+    </style>    
+<body>
+    <div class="container">
+        <div class="disk">
+            <img src="Assets/hard disk.png" class="disk" alt="">
+        </div>
+        <div class="desc">
+            <h1 class="text-center">Game Start</h1>
+            <p class="text-center">Ready to Vibe</p>
+        </div>
+    </div>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const destination = urlParams.get('goto'); 
+
+        setTimeout(() => {
+            if (destination) {
+                window.location.href = destination;
+            } else {
+                window.location.href = "game-modes.html";
+            }
+        }, 3000);
+
+        history.pushState(null, null, location.href);
+        window.onpopstate = function () {
+            history.go(1);
+        };
+
+        window.addEventListener('load', () => {
+            history.pushState(null, null, location.href);
+        });
+
+    </script>
+</body>
+</html>

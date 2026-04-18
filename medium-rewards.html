@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Syne:wght@400..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/scroll-bar.css">
+    <script src="js/bootstrap.min.js"></script>
+    <title>Rewards</title>
+    <style>
+        body {
+            transition: 0.3s ease-in-out;
+            opacity: 1;
+            font-family: "Outfit", sans-serif;
+            background: #520828;
+            margin: 0;
+            padding: 0;
+            color: white;
+            font-size: 20px;
+            overflow-x: hidden;
+            user-select: none; 
+            -webkit-tap-highlight-color: transparent;
+            cursor: pointer;
+        }
+        h1 {
+            font-family: "Syne", sans-serif;
+            font-size: 4rem;
+            font-weight: bolder;
+            margin: 40px 0 20px 0;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+        .most-stats {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            gap: 40px;
+            list-style: none;
+        }
+        .most-stats a {
+            text-decoration: none;
+            color: white;
+        }
+        .most-stats a:hover {
+            text-decoration: underline 2px;
+        }
+        .leaderboard-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            width: 60%;
+        }
+        .leaderboards p {
+            margin: 0;
+        }
+        .leaderboards {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            width: 94%;
+        }
+        #your-point-leaderboards {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            bottom: 140px;
+            width: 50%;
+            box-sizing: border-box;
+            z-index: 100;
+        }
+        .rank {
+            color: white;
+            background: #520828;
+            border: 2px solid white;
+            width: 80%;
+            gap: 20px;
+            text-align: center;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+        #your-points {
+            width: 80%;
+        }
+        #your-rank, #your-points {
+            color: #520828;
+            background: white;
+        }
+
+        .streaks {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+        }
+        .streaks img {
+            width: 80px;
+            height: 80px;
+        }
+        .streaks p {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+        .streaks {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+            flex-direction: column;
+            text-align: left;
+        }
+        #peak-streak {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        #your-streaks img {
+            display: flex;
+            width: 44px;
+            height: 44px;
+            gap: 20px;
+        }
+        .streaks p {
+            font-size: 1.4rem;
+        }
+        .rewards {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        .streak-hidden {
+            opacity: 0 !important;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        #left {
+            left: -300px;
+            animation: rotate 10s linear infinite;
+        }
+        #right {
+            right: -300px;
+            animation: reversed 10s linear infinite;
+        }
+        .disk {
+            position: fixed;
+            top: 16.5%;
+            z-index: -1;
+            transition: 0.3s ease-in-out; 
+        }
+        .streak-disk {
+            animation: rotate 10s linear infinite;
+        }
+        #container-streaks {
+            display: none;
+        }
+        .most-stats a.active {
+            text-decoration: none;
+            border-bottom: 2px solid white;
+            padding-bottom: 5px;
+            font-weight: 400;
+            color: white;
+        }
+        .most-stats a {
+            cursor: pointer;
+            transition: 0.2s;
+            border-bottom: 3px solid transparent;
+        }
+        .home {
+            color: white;
+            background: #520828;
+            border: 2px solid white;
+            padding: 12px 0;
+            width: 40%;
+            text-align: center;
+            box-sizing: border-box;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: 0.3s ease-in-out;
+            text-decoration: none;
+        }
+        .home:hover {
+            color: #520828;
+            background: white;
+        }
+        @keyframes rotate {
+            from { 
+                transform: rotate(0deg); 
+            }
+            to {
+                transform: rotate(360deg); 
+            }
+        }
+        @keyframes reversed {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(-360deg);
+            }
+        }
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 3rem;
+            }
+            #left, #right {
+                opacity: 0;
+            }
+            .leaderboard-container {
+                width: 100%;
+                gap: 12px;
+            }
+            .rewards {
+                gap: 8px;
+            }
+            .leaderboards {
+                margin: 0;
+                height: auto;
+                font-size: 1rem;
+                gap: 20px;
+                flex-direction: column;
+            }
+            #your-rank h2 {
+                margin: 0;
+            }
+            .rank {
+                padding: 12px;
+            }
+            h1 {
+                text-align: center;
+                margin: 0;
+            }
+            .h3 {
+                font-size: 1.5rem !important;
+            }
+            #mode {
+                margin: 40px 0 !important;
+            }
+        }
+        @media (min-width: 768px) and (max-width: 1500px) {
+            #left, #right {
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <p class="h4 fw-light text-center" style="margin: 60px 0;" id="mode">VibeCheck: Medium Mode</p>
+    <img src="Assets/medium disk.png" alt="" class="disk" id="left">
+    <img src="Assets/medium disk.png" alt="" class="disk" id="right">
+    <div class="container">
+        <h1 class="text-center">Nice Job!</h1>
+        <div class="leaderboard-container" id="container-points">
+            <div class="leaderboards" id="your-leaderboard">
+                <p class="h3">1</p>
+                <div class="rank d-flex flex-column flex-md-row justify-content-between align-items-center px-4 py-4" id="your-rank">                    
+                    <h2>Jolo</h2>
+                    <p class="total-pts"><span>0</span> pt/s gained</p>
+                </div>
+                <div class="streaks" id="your-streaks">
+                    <img src="" alt="" class="streak-disk">
+                    <p class="streak-pts">429</p>
+                </div>
+            </div>
+            <h3>You've gained a total of:</h3>
+            <div class="rewards">
+                <p class="points">+<span>0</span> pts gained</p>
+                <div class="streaks" id="peak-streak">
+                    <img src="" alt="" class="streak-disk">
+                    <p>Your Peak Streak is +<span>0</span></p>
+                </div>
+            </div>
+            
+            <a class="home" href="index.html">Back to Home</a>
+        </div>    
+    </div>
+    <script src="data/medium-global.js"></script>
+    <script src="data/medium-local.js"></script>
+
+    <script src="gameplay/medium-mode.js"></script>
+
+    <script src="gameplay/medium-hint.js"></script>
+    <script src="gameplay/medium-answer-logic.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const gameMode = "medium";
+
+            const finalTotalScore = parseInt(localStorage.getItem(`${gameMode}_totalScore`)) || 0;
+            const finalPeakStreak = parseInt(localStorage.getItem(`${gameMode}_peakStreak`)) || 0;
+            const finalCurrentStreak = parseInt(localStorage.getItem(`${gameMode}_currentStreak`)) || 0;
+
+            const totalPointsSpan = document.querySelector('.rewards .points span');
+            const peakStreakSpan = document.querySelector('#peak-streak span');
+            const peakStreakIcon = document.querySelector('#peak-streak img');
+            const peakStreakContainer = document.querySelector('#peak-streak');
+
+            const player1Points = document.querySelector('#your-rank .total-pts span');
+            const player1StreakContainer = document.querySelector('#your-streaks');
+            const player1StreakNum = document.querySelector('#your-streaks .streak-pts');
+            const player1StreakIcon = document.querySelector('#your-streaks img');
+
+            if (totalPointsSpan) totalPointsSpan.innerText = finalTotalScore;
+            if (player1Points) player1Points.innerText = finalTotalScore;
+            if (peakStreakSpan) peakStreakSpan.innerText = finalPeakStreak;
+            if (player1StreakNum) player1StreakNum.innerText = finalCurrentStreak;
+
+            const updateVisibility = (container, imgElement, streakValue) => {
+                if (!container || !imgElement) return;
+                
+                const s = parseInt(streakValue);
+
+                if (s <= 0) {
+                    container.classList.add('streak-hidden');
+                } else {
+                    container.classList.remove('streak-hidden');
+                    container.style.opacity = "1"; 
+                    container.style.visibility = "visible";
+                    
+                    let icon = "1 streak.png";
+                    
+                    imgElement.src = `Assets/${icon}`;
+                }
+            };
+
+            updateVisibility(peakStreakContainer, peakStreakIcon, finalPeakStreak);
+            updateVisibility(player1StreakContainer, player1StreakIcon, finalCurrentStreak);
+
+            const homeBtn = document.querySelector('.home');
+            if (homeBtn) {
+                homeBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+
+
+                    const permTotalScore = parseInt(localStorage.getItem(`perm_totalScore`)) || 0;
+                    const permPeakStreak = parseInt(localStorage.getItem(`perm_peakStreak`)) || 0;
+
+                    localStorage.setItem(`perm_totalScore`, permTotalScore + finalTotalScore);
+                    localStorage.setItem(`perm_peakStreak`, permPeakStreak + finalPeakStreak);
+                    
+                    localStorage.setItem(`${gameMode}_totalScore`, 0);
+                    localStorage.setItem(`${gameMode}_currentStreak`, 0);
+                    localStorage.setItem(`${gameMode}_peakStreak`, 0);
+                    localStorage.setItem(`${gameMode}_songIndex`, 0);
+                    localStorage.setItem('hintTrials', 2);
+                    localStorage.removeItem('playedSongs');
+
+                    window.location.href = "index.html";
+                });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Syne:wght@400..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/scroll-bar.css">
+    <script src="js/bootstrap.min.js"></script>
+    <title>Game Modes</title>
+    <style>
+        body {
+            transition: 0.3s ease-in-out;
+            opacity: 1;
+            font-family: "Outfit", sans-serif;
+            background: #520828;
+            margin: 0;
+            padding: 0;
+            color: white;
+            font-size: 20px;
+            overflow-x: hidden;
+            user-select: none; 
+            -webkit-tap-highlight-color: transparent;
+            cursor: pointer;
+        }
+        h1 {
+            font-family: "Syne", sans-serif;
+            font-size: 4rem;
+            font-weight: bolder;
+            margin: 100px 0 180px 0;
+        }
+        .album {
+            position: relative;
+            width: 320px;
+            height: 300px;
+            cursor: pointer;
+        }
+        .label {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #e7c4d4;
+            color: #520828;
+            font-weight: 600;
+            z-index: 2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .disk {
+            position: absolute;
+            top: 0;
+            left: 10px;
+            width: 300px;
+            height: 300px;
+            z-index: 1;
+            transition: transform 0.3s ease-in-out; 
+            transform: translateY(0) rotate(0deg);
+        }
+        .fa-bars {
+            position: fixed;
+            top: 0;
+        }
+        i {
+            margin: 40px 0 0 40px;
+            font-size: 40px;
+        }
+        .album p {
+            color: #e7c4d4;
+
+        }
+        .album:hover .disk {
+            transform: translateY(-140px);
+        }
+        .album:hover .label {
+            transform: translateY(12px);
+            background: white;
+            transition: 0.3s ease-in-out;
+        }
+        .album:hover p {
+            color: white;
+            font-weight: 600;
+            transition: 0.3s ease-in-out;
+        }
+        .album-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 60px;
+            width: 100vw;
+            margin-top: 260px;
+        }
+        @media (min-width: 768px) and (max-width: 1300px) {
+            .container {
+                gap: 240px;
+                flex-direction: column;
+                margin-top: 100px;
+                height: auto;
+                overflow-y: visible;
+            }
+            h1 {
+                margin: 100px 0 200px 0;
+            }
+        }
+        @media (max-width: 767px) {
+            .album-container {
+                gap: 240px;
+                flex-direction: column;
+                margin-top: 100px;
+                height: auto;
+            }
+            h1 {
+                margin: 140px 0 200px 0;
+            }
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 998;
+            display: none;
+        }
+        .overlay.active {
+            display: block;
+        }
+        .sidebar {
+            position: fixed;
+            left: -420px;
+            top: 0;
+            width: 400px;
+            height: 100vh;
+            background-color: #520828;
+            z-index: 999;
+            transition: 0.3s ease-in-out;
+            padding: 40px 20px;
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+        }
+        .sidebar.active {
+            left: 0;
+        }
+        .fa-bars.hidden {
+            visibility: hidden;
+        }
+        .sidebar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 0 20px;
+            margin-bottom: 40px;
+        }
+        .sidebar p {
+            font-weight: 600;
+            margin: 0; 
+            font-family: "Syne", sans-serif;
+        }
+        .fa-x {
+            font-size: 24px;
+            cursor: pointer;
+            margin: 0; 
+        }
+        .sidebar li {
+            width: 100%;
+            list-style: none;
+            padding: 16px 20px 16px 0;
+            cursor: pointer;
+        }
+        .sidebar li a {
+            width: 100%;
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+        .sidebar li:hover {
+            background-color: white;
+        }
+        .sidebar li:hover a {
+            color: #520828;
+        }
+        .fa-x {
+            cursor: pointer;
+            float: right;
+        }
+        nav ul li a {
+            padding: 20px 32px;
+            width: 100%;
+            font-size: 18px;
+            transition: 0.2s;
+        }
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<body>
+    <div class="overlay"></div>
+    <i class="fa-solid fa-bars"></i>
+    <nav>
+        <ul class="sidebar">
+            <div class="sidebar-header">
+                <p class="h2">VibeCheck</p>
+                <i class="fa-solid fa-x"></i>
+            </div>
+            <li><a href="leaderboards.html">Leaderboards</a></li>
+            <li><a href="game-modes.html">Game Modes</a></li>
+            <li><a href="streaks.html">Streaks</a></li>
+            <li><a href="mechanics.html">Mechanics</a></li>
+        </ul>
+    </nav>
+
+    <h1 class="text-center">Select Difficulty</h1>
+    <div id="main-content-wrapper">
+        <div class="album-container">
+            <a href="easy-loading.html?goto=easy.html">
+                <div class="album">
+                    <img src="Assets/easy disk.png" class="disk" alt="">
+                    <div class="label h1">Easy</div>
+                </div>
+            </a>
+            <a href="medium-loading.html?goto=medium.html">
+                <div class="album">
+                    <img src="Assets/medium disk.png" class="disk" alt="">
+                    <div class="label h1">Medium</div>
+                </div>
+            </a>
+            <a href="hard-loading.html?goto=hard.html">
+                <div class="album">
+                    <img src="Assets/hard disk.png" class="disk" alt="">
+                    <div class="label h1">Hard</div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <script>
+        const bars = document.querySelector('.fa-bars');
+        const sidebarX = document.querySelector('.sidebar .fa-x');
+        const sidebar = document.querySelector('.sidebar');
+        const overlay = document.querySelector('.overlay');
+        
+        bars.addEventListener('click', () => {
+            sidebar.classList.add('active');
+            overlay.classList.add('active');
+            bars.classList.add('hidden');
+        });
+
+        function closeSidebar() {
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+            bars.classList.remove('hidden');
+        }
+
+        sidebarX.addEventListener('click', closeSidebar);
+        overlay.addEventListener('click', closeSidebar);
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const destination = urlParams.get('goto'); 
+
+        setTimeout(() => {
+            if (destination) {
+                window.location.href = destination;
+            }
+        }, 3000);
+    </script>
+</body>
+</html>

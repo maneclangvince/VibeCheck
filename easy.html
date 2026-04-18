@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Syne:wght@400..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/scroll-bar.css">
+    <script src="js/bootstrap.min.js"></script>
+    <title>Easy Mode</title>
+    <style>
+        body {
+            transition: 0.3s ease-in-out;
+            opacity: 1;
+            font-family: "Outfit", sans-serif;
+            background: #520228;
+            margin: 0;
+            padding: 0;
+            color: white;
+            font-size: 20px;
+            overflow-x: hidden;
+            user-select: none; 
+            -webkit-tap-highlight-color: transparent;
+            cursor: pointer;
+        }
+        h1 {
+            font-family: "Syne", sans-serif;
+            font-size: 4rem;
+            font-weight: bolder;
+            margin: 0 0 180px 0;
+        }
+        #mode {
+            margin-top: 40px;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            white-space: nowrap;
+            gap: 32px;
+        }
+        .album {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+        }
+        .label {
+            width: 260px;
+            height: 260px;
+            background: white;
+            border-radius: 8px;
+            z-index: 1;
+            margin-left: -120px;
+            position: absolute;
+            filter: brightness(8) contrast(10) blur(3px);
+        }
+        .blur {
+            width: 260px;
+            height: 260px;
+            margin-left: -120px;
+            border-radius: 8px;
+            box-shadow: 1px 0 12px transparent;
+            position: absolute;
+            z-index: 2;
+            opacity: 0.9;
+            filter: blur(3px);
+        }
+        .disk {
+            z-index: -1;
+            width: 240px;
+            height: 240px;
+            margin-right: -140px;
+            animation: rotate 10s linear infinite;
+            animation-play-state: paused;
+        }
+        .disk.play {
+            animation-play-state: running;
+        }
+        .guess {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .input-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 90%;
+            max-width: 800px;
+            height: auto;
+            border-radius: 12px;
+            padding: 40px 20px;
+            margin-top: -80px;
+            box-sizing: border-box;
+        }
+        form {
+            gap: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            font-size: 20px;
+            padding: 0 80px;
+            margin-top: 40px;
+        }
+        input[type="text"] {
+            color: white;
+            background: transparent;
+            border: 2px solid white;
+            padding: 20px;
+            width: 100%;
+            box-sizing: border-box;
+            border-radius: 8px;
+        }
+        label {
+            text-align: center;
+        }
+        input::placeholder {
+            color: white;
+            text-align: center;
+        }
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+        }
+        .hint, .submit {
+            color: white;
+            background: transparent;
+            border: 2px solid white;
+            padding: 12px 0;
+            width: 40%;
+            text-align: center;
+            box-sizing: border-box;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: 0.3s ease-in-out;
+        }
+        i {
+            font-size: 28px;
+        }
+        .btn {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            width: 400px;
+            border: transparent;
+        }
+        .hint:hover, .submit:hover {
+            color: #520828;
+            background: white;
+        }
+        .hint:focus, .submit:focus, .hint:active, .submit:active {
+            outline: none !important;
+            box-shadow: none !important;
+        }
+        .hint.disabled, .submit.disabled {
+            border-color: #888 !important;
+            color: #888 !important;
+            cursor: not-allowed !important;
+            opacity: 0.6 !important;
+            transition: none !important;
+            pointer-events: none;
+        }
+        #close-input {
+            top: 40px;
+            right: 40px;
+            font-size: 24px;
+        }
+        .music-player {
+            width: 420px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 20px;
+            margin-top: -20px;
+        }
+        .song-slider {
+            width: 90%;
+        }
+        .slider {
+            -webkit-appearance: none;
+            width: 90%;
+            height: 12px;
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: default;
+            pointer-events: none;
+        }
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 10px;
+            height: 20px;
+            background: black;
+            box-shadow: -400px 0 0 400px black;
+        }
+        .play-btn {
+            width: 60px;
+            height: 60px;
+            background: transparent;
+            border: 2px solid white;
+            border-radius: 50%;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .play-btn span {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 8px;
+            width: 6px;
+            height: 25px;
+            background-color: white;
+            transition: all 0.3s ease;
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        }
+        .play-btn span:nth-child(1) {
+            margin-left: -6px;
+        }
+        .play-btn span:nth-child(2) {
+            margin-left: 6px;
+            transform-origin: center;
+        }
+        .play-btn.pause span:nth-child(2) {
+            transform: translateY(-50%) scaleY(0);
+        }
+        .play-btn.pause span:nth-child(1) {
+            width: 40%;
+            height: 50%;
+            margin-left: 2px;
+            transform: translateY(-50%, -50%);
+        }
+        .play-btn.pause span {
+            clip-path: polygon(0 0, 100% 50%, 100% 50%, 0 100%);
+        }
+        .play-btn:hover {
+            background-color: white;
+        }
+        .play-btn:hover span {
+            background-color: black;
+        }
+        #left {
+            left: -300px;
+            animation: rotate 10s linear infinite;
+            animation-play-state: paused;
+        }
+        #right {
+            right: -300px;
+            animation: reversed 10s linear infinite;
+            animation-play-state: paused;
+        }
+        .bg-disk {
+            position: fixed;
+            top: 16.5%;
+            z-index: -1;
+            transition: 0.3s ease-in-out; 
+        }
+        #left.play, #right.play {
+            animation-play-state: running;
+        }
+        @keyframes rotate {
+            from { 
+                transform: rotate(0deg); 
+            }
+            to {
+                transform: rotate(360deg); 
+            }
+        }
+        @keyframes reversed {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(-360deg);
+            }
+        }
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 3rem;
+            }
+            #left, #right {
+                opacity: 0;
+            }
+            #mode {
+                text-align: center;
+            }
+            #timer {
+                text-align: center;
+            }
+        }
+        @media (min-width: 768px) and (max-width: 1500px) {
+            #left, #right {
+                opacity: 0;
+            }
+            #mode {
+                text-align: center;
+            }
+            #timer {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <audio src="" id="audio"></audio>
+    <img src="Assets/easy disk.png" alt="" class="bg-disk" id="left">
+    <img src="Assets/easy disk.png" alt="" class="bg-disk" id="right">
+    <main>
+        <div class="container">
+            <div class="logo-section">
+                <p class="h4 fw-light" id="mode">VibeCheck: Easy Mode</p>
+            </div>
+            <div class="timer">
+                <p class="h3" id="timer"><span>--</span> Seconds Remaining</p>
+            </div>
+            <p style="margin-bottom: -20px; font-size: 1.5rem;">
+                <span id="min-songs">1</span>/<span id="max-songs">15</span> Songs Playing
+            </p>
+            <div class="album">
+                <img src="" style="background: white;" alt="" class="label">    
+                <img src="Assets/blur.png" alt="" class="blur">
+                <img src="Assets/easy disk.png" alt="" class="disk">
+            </div>
+            <div class="guess">
+                <h3>Guess The Song Name</h3>
+                <p style="font-size: 1.5rem;">Hint: _ _ _</p> <!-- These are the answers, when the player hits the hint button, it pops the random letters (1 use only)-->
+            </div>
+            <div class="music-player">
+                <div class="controls">
+                    <button class="play-btn pause">
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+                <div class="song-slider">
+                    <input type="range" value="0" class="slider">
+                </div>
+            </div>
+            <div class="input-container">
+                <form action="" method="post">
+                    <input type="text" name="answer" id="ans" placeholder="Type your Answer" autocomplete="off" spellcheck="false">
+                    <div class="btn">
+                        <div class="hint"><i class="fa-solid fa-lightbulb me-2"></i><p style="margin: 0;">Hints: <span>3</span></p></div>
+                        <div class="submit">Submit</div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+    <script src="data/easy-global.js"></script>
+    <script src="data/easy-local.js"></script>
+
+    <script src="gameplay/easy-mode.js"></script>
+
+    <script src="gameplay/easy-hint.js"></script>
+    <script src="gameplay/easy-answer-logic.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const gameMode = "easy";
+
+            let currentIndex = parseInt(localStorage.getItem(`${gameMode}_songIndex`)) || 0;
+
+            const minSongsSpan = document.getElementById('min-songs');
+            
+            if (minSongsSpan) {
+                minSongsSpan.innerText = currentIndex + 1;
+            }
+        });
+
+        history.pushState(null, null, location.href);
+        window.onpopstate = function () {
+            history.go(1);
+        };
+
+        window.addEventListener('load', () => {
+            history.pushState(null, null, location.href);
+        });
+
+        document.querySelector('#ans').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+
+                if (this.value.trim() !== "") {
+                    document.querySelector('.submit').click();
+                }
+            }
+        });
+
+        (function() {
+            const hintBtn = document.querySelector('.hint');
+            
+            const applyHintStyle = () => {
+                const trials = parseInt(localStorage.getItem('hintTrials'));
+                if (trials <= 0) {
+                    hintBtn.classList.add('disabled');
+                } else {
+                    hintBtn.classList.remove('disabled');
+                }
+            };
+
+            if (hintBtn) {
+                applyHintStyle();
+
+                const observer = new MutationObserver(applyHintStyle);
+                observer.observe(hintBtn, { childList: true, subtree: true, characterData: true });
+
+                hintBtn.addEventListener('click', () => {
+                    setTimeout(applyHintStyle, 0);
+                });
+            }
+        })();
+    </script>
+</body>
+</html>
