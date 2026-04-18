@@ -1,328 +1,370 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Syne:wght@400..800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/scroll-bar.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Syne:wght@400..800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/scroll-bar.css" />
     <script src="js/bootstrap.min.js"></script>
     <title>Mechanics</title>
     <style>
-        body {
-            transition: 0.3s ease-in-out;
-            opacity: 1;
-            font-family: "Outfit", sans-serif;
-            background: #520828;
-            margin: 0;
-            padding: 0;
-            color: white;
-            font-size: 20px;
-            overflow-x: hidden;
-            user-select: none; 
-            -webkit-tap-highlight-color: transparent;
-            cursor: pointer;
+      body {
+        transition: 0.3s ease-in-out;
+        opacity: 1;
+        font-family: "Outfit", sans-serif;
+        background: #520828;
+        margin: 0;
+        padding: 0;
+        color: #ffffff;
+        font-size: 20px;
+        overflow-x: hidden;
+        user-select: none;
+        -webkit-tap-highlight-color: #00000000;
+        cursor: pointer;
+      }
+      h1 {
+        font-family: "Syne", sans-serif;
+        font-size: 4rem;
+        font-weight: bolder;
+        margin: 100px 0 40px 0;
+      }
+      i {
+        margin: 40px 0 0 40px;
+        font-size: 40px;
+      }
+      .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: #000000b3;
+        z-index: 998;
+        display: none;
+      }
+      .overlay.active {
+        display: block;
+      }
+      .sidebar {
+        position: fixed;
+        left: -420px;
+        top: 0;
+        width: 400px;
+        height: 100vh;
+        background-color: #520828;
+        z-index: 999;
+        transition: 0.3s ease-in-out;
+        padding: 40px 20px;
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+      }
+      .sidebar.active {
+        left: 0;
+      }
+      .fa-bars {
+        position: fixed;
+        top: 0;
+      }
+      .fa-bars.hidden {
+        visibility: hidden;
+      }
+      .sidebar-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        padding: 0 20px;
+        margin-bottom: 40px;
+      }
+      .sidebar p {
+        font-weight: 600;
+        margin: 0;
+        font-family: "Syne", sans-serif;
+      }
+      .fa-x {
+        font-size: 24px;
+        cursor: pointer;
+        margin: 0;
+      }
+      .sidebar li {
+        width: 100%;
+        list-style: none;
+        padding: 16px 20px 16px 0;
+        cursor: pointer;
+      }
+      .sidebar li a {
+        width: 100%;
+        color: #ffffff;
+        text-decoration: none;
+        font-size: 1.2rem;
+        cursor: pointer;
+      }
+      .sidebar li:hover {
+        background-color: #ffffff;
+      }
+      .sidebar li:hover a {
+        color: #520828;
+      }
+      nav ul .loc a {
+        padding: 20px 32px;
+        width: 100%;
+        font-size: 18px;
+        transition: 0.2s;
+      }
+      .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        width: 90%;
+        max-width: 800px;
+        border: 2px solid #ffffff;
+        padding: 0;
+        border-radius: 12px;
+        margin-bottom: 80px;
+        background: #520828b3;
+      }
+      .lists {
+        margin-bottom: 0;
+      }
+      .content {
+        width: 100%;
+        padding: 20px;
+      }
+      .content p {
+        margin: 0 0 20px 0;
+      }
+      #left {
+        left: -300px;
+        animation: rotate 10s linear infinite;
+      }
+      #right {
+        right: -300px;
+        animation: reversed 10s linear infinite;
+      }
+      .disk {
+        position: fixed;
+        top: 16.5%;
+        z-index: -1;
+        transition: 0.3s ease-in-out;
+        width: 600px;
+      }
+      @keyframes rotate {
+        from {
+          transform: rotate(0deg);
         }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      @keyframes reversed {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(-360deg);
+        }
+      }
+      @media (max-width: 768px) {
         h1 {
-            font-family: "Syne", sans-serif;
-            font-size: 4rem;
-            font-weight: bolder;
-            margin: 100px 0 40px 0;
-        }
-        i {
-            margin: 40px 0 0 40px;
-            font-size: 40px;
-        }
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 998;
-            display: none;
-        }
-        .overlay.active {
-            display: block;
+          font-size: 2.5rem;
+          margin: 80px 0 30px 0;
         }
         .sidebar {
-            position: fixed;
-            left: -420px;
-            top: 0;
-            width: 400px;
-            height: 100vh;
-            background-color: #520828;
-            z-index: 999;
-            transition: 0.3s ease-in-out;
-            padding: 40px 20px;
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-        }
-        .sidebar.active {
-            left: 0;
-        }
-        .fa-bars {
-            position: fixed;
-            top: 0;
-        }
-        .fa-bars.hidden {
-            visibility: hidden;
-        }
-        .sidebar-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-            padding: 0 20px;
-            margin-bottom: 40px;
-        }
-        .sidebar p {
-            font-weight: 600;
-            margin: 0; 
-            font-family: "Syne", sans-serif;
-        }
-        .fa-x {
-            font-size: 24px;
-            cursor: pointer;
-            margin: 0; 
-        }
-        .sidebar li {
-            width: 100%;
-            list-style: none;
-            padding: 16px 20px 16px 0;
-            cursor: pointer;
-        }
-        .sidebar li a {
-            width: 100%;
-            color: white;
-            text-decoration: none;
-            font-size: 1.2rem;
-            cursor: pointer;
-        }
-        .sidebar li:hover {
-            background-color: white;
-        }
-        .sidebar li:hover a {
-            color: #520828;
-        }
-        .fa-x {
-            cursor: pointer;
-            float: right;
-        }
-        nav ul .loc a {
-            padding: 20px 32px;
-            width: 100%;
-            font-size: 18px;
-            transition: 0.2s;
+          width: 80%;
+          left: -100%;
         }
         .container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            gap: 0px;
-            width: 58%;
-            flex-wrap: wrap;
-            border: 2px solid white;
-            padding: 0;
-            border-radius: 12px;
-            margin-bottom: 80px;
-        }
-        .lists {
-            margin-bottom: 0;
-        }
-        .content {
-            width: 100%;
-            padding: 40px 40px 20px 40px;
-        }
-        .content p {
-            font-family: 2rem;
-            margin: 0 0 20px 0;
+          width: 95%;
         }
         #left {
-            left: -300px;
-            animation: rotate 10s linear infinite;
+          left: -150px;
+          width: 300px;
+          opacity: 0.5;
         }
         #right {
-            right: -300px;
-            animation: reversed 10s linear infinite;
+          right: -150px;
+          width: 300px;
+          opacity: 0.5;
         }
         .disk {
-            position: fixed;
-            top: 16.5%;
-            z-index: -1;
-            transition: 0.3s ease-in-out; 
+          top: 25%;
         }
-        @keyframes rotate {
-            from { 
-                transform: rotate(0deg); 
-            }
-            to {
-                transform: rotate(360deg); 
-            }
+        .content {
+          padding: 15px;
         }
-        @keyframes reversed {
-            from {
-                transform: rotate(0deg);
-            }
-            to {
-                transform: rotate(-360deg);
-            }
+        .content p.h2 {
+          font-size: 1.5rem;
         }
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2.5rem;
-                margin: 140px 0 40px 0;
-            }
-            #left, #right {
-                opacity: 0;
-            }
-        }
-        @media (min-width: 768px) and (max-width: 1500px) {
-            #left, #right {
-                opacity: 0;
-            }
-        }
-        p {
-            text-align: justify;
-        }
-        .content ul li {
-            list-style-type: '◆ ';
-            color: white;
-        }
-        .content ul li ul {
-            list-style-type: circle;
-        }
+      }
+      p {
+        text-align: justify;
+      }
+      .content ul li {
+        list-style-type: "◆ ";
+        color: #ffffff;
+      }
+      .content ul li ul {
+        list-style-type: circle;
+      }
     </style>
-</head>
-<body>
-    <img src="Assets/home disk.png" alt="" class="disk" id="left">
-    <img src="Assets/home disk.png" alt="" class="disk" id="right">
+  </head>
+  <body>
+    <img src="Assets/home disk.png" alt="" class="disk" id="left" />
+    <img src="Assets/home disk.png" alt="" class="disk" id="right" />
 
     <div class="overlay"></div>
     <i class="fa-solid fa-bars"></i>
     <nav>
-        <ul class="sidebar">
-            <div class="sidebar-header">
-                <p class="h2">VibeCheck</p>
-                <i class="fa-solid fa-x"></i>
-            </div>
-            <li class="loc"><a href="leaderboards.html">Leaderboards</a></li>
-            <li class="loc"><a href="game-modes.html">Game Modes</a></li>
-            <li class="loc"><a href="streaks.html">Streaks</a></li>
-            <li class="loc"><a href="mechanics.html">Mechanics</a></li>
-        </ul>
+      <ul class="sidebar">
+        <div class="sidebar-header">
+          <p class="h2">VibeCheck</p>
+          <i class="fa-solid fa-x"></i>
+        </div>
+        <li class="loc"><a href="leaderboards.html">Leaderboards</a></li>
+        <li class="loc"><a href="game-modes.html">Game Modes</a></li>
+        <li class="loc"><a href="streaks.html">Streaks</a></li>
+        <li class="loc"><a href="mechanics.html">Mechanics</a></li>
+      </ul>
     </nav>
     <h1 class="text-center">Mechanics</h1>
     <div class="container">
-        <div class="content">
-            <p class="h2 text-center">Before Gameplay</p>
-            <p>VibeCheck gameplay mechanics starts when a user clicks or taps any of these modes:</p>
+      <div class="content">
+        <p class="h2 text-center">Before Gameplay</p>
+        <p>
+          VibeCheck gameplay mechanics starts when a user clicks or taps any of
+          these modes:
+        </p>
+        <ul class="lists">
+          <li>Easy</li>
+          <li>Medium</li>
+          <li>Hard</li>
+        </ul>
+      </div>
+      <div class="content">
+        <p class="h2 text-center">Gameplay</p>
+        <p>
+          The Loading screen appears with a disk indicator based on the modes
+          clicked by the users, the loading screen duration is 3 seconds long,
+          then the game starts.
+        </p>
+        <p>When the game has started, there are</p>
+        <ul class="lists">
+          <li>Hints placeholder that gives clue to users</li>
+          <li>Hint button to reveal 1 letter/character</li>
+          <li>Music player</li>
+        </ul>
+      </div>
+      <div class="content">
+        <p class="h3 text-center">Points and Streaks</p>
+        <p>
+          Users will gain points and streaks per correct answer, no points gain
+          per incorrect answer. Every mode has 15 songs to answer and the goal
+          is the get the highest amount of points and streaks as possible.
+        </p>
+        <p>
+          The more streaks users have, it means the user got the consecutive
+          amount of correct answers. However, if they got the incorrect answer,
+          the streak breaks and turns into peak streak. After the game ends, the
+          peak streak converts into your all-time streak which saves into the
+          leaderboards.
+        </p>
+        <p>
+          Each time user plays the game, points and peak streaks will accumulate
+          to the leaderboards.
+        </p>
+      </div>
+      <div class="content">
+        <p class="h2 text-center">Modes</p>
+        <p>
+          Each modes have different kinds of game reward system and gameplay
+          experience:
+        </p>
+        <ul class="lists">
+          <li>
+            <strong>Easy Mode:</strong>
             <ul class="lists">
-                <li>Easy</li>
-                <li>Medium</li>
-                <li>Hard</li>
+              <li>20 second duration</li>
+              <li>+100 points for correct answer</li>
+              <li>+50 points for correct answer in under 5 seconds</li>
+              <li>+20 per streak</li>
+              <li>+1 streak</li>
+              <li>+3 hints</li>
+              <li style="opacity: 0"></li>
             </ul>
-        </div>
-        <div class="content">
-
-            <p class="h2 text-center">Gameplay</p>
-            <p>The Loading screen appears with a disk indicator based on the modes clicked by the users, the loading screen duration is 3 seconds long, then the game starts.</p>
-            <p>When the game has started, there are</p>
+          </li>
+          <li>
+            <strong>Medium Mode:</strong>
             <ul class="lists">
-                <li>Hints placeholder that gives clue to users</li>
-                <li>Hint button to reveal 1 letter/character</li>
-                <li>Music player</li>
+              <li>15 second duration</li>
+              <li>+200 points for correct answer</li>
+              <li>+75 points for correct answer in under 5 seconds</li>
+              <li>+25 per 2 streaks</li>
+              <li>+2 streaks</li>
+              <li>+2 hints</li>
+              <li style="opacity: 0"></li>
             </ul>
-        </div>
-        <div class="content">
-
-            <p class="h3 text-center">Points and Streaks</p>
-            <p>Users will gain points and streaks per correct answer, no points gain per incorrect answer. Every mode has 15 songs to answer and the goal is the get the highest amount of points and streaks as possible.</p>
-            <p>The more streaks users have, it means the user got the consecutive amount of correct answers. However, if they got the incorrect answer, the streak breaks and turns into peak streak. After the game ends, the peak streak converts into your all-time streak which saves into the leaderboards.</p>
-            <p>Each time user plays the game, points and peak streaks will accumulate to the leaderboards.</p>
-        </div>
-        <div class="content">
-
-            <p class="h2 text-center">Modes</p>
-            <p>Each modes have different kinds of game reward system and gameplay experience:</p>
+          </li>
+          <li>
+            <strong>Hard Mode:</strong>
             <ul class="lists">
-                <li>
-                    <strong>Easy Mode:</strong>
-                    <ul class="lists">
-                        <li> 20 second duration</li>
-                        <li>+100 points for correct answer</li>
-                        <li>+50 points for correct answer in under 5 seconds</li>
-                        <li>+20 per streak</li>
-                        <li>+1 streak</li>
-                        <li>+3 hints</li>
-                        <li style="opacity: 0;"></li>
-                    </ul>
-                </li>
-                <li>
-                    <strong>Medium Mode:</strong>
-                    <ul class="lists">
-                        <li> 15 second duration</li>
-                        <li>+200 points for correct answer</li>
-                        <li>+75 points for correct answer in under 5 seconds</li>
-                        <li>+25 per 2 streaks</li>
-                        <li>+2 streaks</li>
-                        <li>+2 hints</li>
-                        <li style="opacity: 0;"></li>
-                    </ul>
-                </li>
-                <li>
-                    <strong>Hard Mode:</strong>
-                    <ul class="lists">
-                        <li> 10 second duration</li>
-                        <li>+300 points for correct answer</li>
-                        <li>+100 points for correct answer in under 5 seconds</li>
-                        <li>+30 per 3 streaks</li>
-                        <li>+3 streaks</li>
-                        <li>+1 hint</li>
-                    </ul>
-                </li>
+              <li>10 second duration</li>
+              <li>+300 points for correct answer</li>
+              <li>+100 points for correct answer in under 5 seconds</li>
+              <li>+30 per 3 streaks</li>
+              <li>+3 streaks</li>
+              <li>+1 hint</li>
             </ul>
-        </div>    
-        <div class="content">
-
-            <p class="h2 text-center" style="padding-bottom: 12px;">User interact</p>
-            <p class="text-center">Hint button - Click/Tap</p>
-            <p class="text-center">Submit button - Click/Tap</p>
-            <p class="text-center">Answer form - Click/Tap & Type</p>
-            <p class="text-center">Next button - Click/Tap</p>
-            <p class="text-center">Home button - Click/Tap</p>
-            <p class="text-center">Continue - Click/Tap</p>
-            <p class="text-center">Modes - Click/Tap</p>
-            <p class="text-center">Bars Icon - Click/Tap</p>
-            <p class="text-center">Navigation buttons - Click/Tap</p>
-        </div>
+          </li>
+        </ul>
+      </div>
+      <div class="content">
+        <p class="h2 text-center" style="padding-bottom: 12px">User interact</p>
+        <p class="text-center">Hint button - Click/Tap</p>
+        <p class="text-center">Submit button - Click/Tap</p>
+        <p class="text-center">Answer form - Click/Tap & Type</p>
+        <p class="text-center">Next button - Click/Tap</p>
+        <p class="text-center">Home button - Click/Tap</p>
+        <p class="text-center">Continue - Click/Tap</p>
+        <p class="text-center">Modes - Click/Tap</p>
+        <p class="text-center">Bars Icon - Click/Tap</p>
+        <p class="text-center">Navigation buttons - Click/Tap</p>
+      </div>
     </div>
 
     <script>
-        const bars = document.querySelector('.fa-bars');
-        const sidebarX = document.querySelector('.sidebar .fa-x');
-        const sidebar = document.querySelector('.sidebar');
-        const overlay = document.querySelector('.overlay');
-        
-        bars.addEventListener('click', () => {
-            sidebar.classList.add('active');
-            overlay.classList.add('active');
-            bars.classList.add('hidden');
-        });
+      const bars = document.querySelector(".fa-bars");
+      const sidebarX = document.querySelector(".sidebar .fa-x");
+      const sidebar = document.querySelector(".sidebar");
+      const overlay = document.querySelector(".overlay");
 
-        function closeSidebar() {
-            sidebar.classList.remove('active');
-            overlay.classList.remove('active');
-            bars.classList.remove('hidden');
-        }
+      bars.addEventListener("click", () => {
+        sidebar.classList.add("active");
+        overlay.classList.add("active");
+        bars.classList.add("hidden");
+      });
 
-        sidebarX.addEventListener('click', closeSidebar);
-        overlay.addEventListener('click', closeSidebar);
+      function closeSidebar() {
+        sidebar.classList.remove("active");
+        overlay.classList.remove("active");
+        bars.classList.remove("hidden");
+      }
+
+      sidebarX.addEventListener("click", closeSidebar);
+      overlay.addEventListener("click", closeSidebar);
     </script>
-</body>
+  </body>
 </html>
