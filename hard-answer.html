@@ -12,212 +12,430 @@
     <title>Answer</title>
     <style>
         body {
-            transition: 0.3s ease-in-out;
-            opacity: 1;
-            font-family: "Outfit", sans-serif;
-            background: #520828;
-            margin: 0;
-            padding: 0;
-            color: white;
-            font-size: 20px;
-            overflow-x: hidden;
-            user-select: none; 
-            -webkit-tap-highlight-color: transparent;
-            cursor: pointer;
+        transition: 0.3s ease-in-out;
+        opacity: 1;
+        font-family: "Outfit", sans-serif;
+        background: #520828;
+        margin: 0;
+        padding: 0;
+        color: white;
+        font-size: 20px;
+        overflow-x: hidden;
+        user-select: none; 
+        -webkit-tap-highlight-color: #00000000;
+        cursor: pointer;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    h1 {
+        font-family: "Syne", sans-serif;
+        font-size: 6rem;
+        font-weight: 600;
+        margin: 0;
+        text-align: center;
+    }
+
+    .container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        max-width: 100vw;
+        gap: 24px;
+        padding: 20px;
+        box-sizing: border-box;
+        text-align: center;
+    }
+
+    .album {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        width: fit-content;
+        margin: 0 auto;
+    }
+
+    .label {
+        width: 260px;
+        height: 260px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 1px 0 12px #520828;
+        z-index: 2;
+    }
+
+    .disk {
+        z-index: 1;
+        width: 240px;
+        height: 240px;
+        margin-left: -120px;
+        animation: rotate 10s linear infinite;
+    }
+
+    .rewards {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .answer {
+        font-size: 1.8rem; 
+        font-weight: 600;
+        margin: 0;
+    }
+
+    .artist, .by {
+        font-size: 1.5rem; 
+        font-weight: 400;
+        margin: 0;
+    }
+
+    .by {
+        color: #c9c9c9;
+    }
+
+    .stats {
+        font-family: "Syne", sans-serif;
+        font-weight: 700;
+        margin: 0;
+    }
+
+    .streaks {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+    }
+
+    .streaks img {
+        width: 60px;
+        height: 60px;
+    }
+
+    .streaks p {
+        margin: 0;
+        font-size: 1.5rem;
+    }
+
+    .streak-disk {
+        animation: rotate 10s linear infinite;
+    }
+
+    .bg-disk {
+        position: fixed;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: -1;
+        transition: 0.3s ease-in-out; 
+    }
+
+    #left {
+        left: -300px;
+        animation: rotate 10s linear infinite;
+    }
+
+    #right {
+        right: -300px;
+        animation: reversed 10s linear infinite;
+    }
+
+    .next {
+        color: white;
+        background: #520828;
+        border: 2px solid white;
+        padding: 12px 0;
+        width: 200px;
+        text-align: center;
+        box-sizing: border-box;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: 0.3s ease-in-out;
+        text-decoration: none;
+    }
+
+    .next:hover {
+        color: #520828;
+        background: white;
+    }
+
+    @keyframes rotate {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+
+    @keyframes reversed {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(-360deg); }
+    }
+
+    @media (max-width: 768px) {
+        h1 {
+            font-size: 3rem;
         }
 
-        h1 {
-            font-family: "Syne", sans-serif;
-            font-size: 6rem;
-            font-weight: 600;
-            margin: 0;
-            text-align: center;
+        #left, #right {
+            display: none;
         }
+
+        body { 
+            height: 100vh;
+            justify-content: center;
+        }
+
         .container {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
-            white-space: nowrap;
-            gap: 32px;
-            margin-top: 100px;
+            margin: 0;
+            padding: 10px;
+            gap: 15px;
         }
-        .album {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: center;
+
+        #mode { 
+            margin: 0 !important;
+            padding: 0 !important;
         }
+
+        .album { 
+            transform: scale(0.7); 
+            margin: -30px 0; 
+        }
+
+        .answer { font-size: 1.4rem; }
+        .by, .artist { font-size: 1.1rem; }
+        
+        .next {
+            width: 70%;
+        }
+
         .label {
             width: 260px;
             height: 260px;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 1px 0 12px #520828;
         }
+
         .disk {
-            z-index: -1;
             width: 240px;
             height: 240px;
-            margin-left: -120px;
-            animation: rotate 10s linear infinite;
         }
-        .rewards {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: -4px;
+    }body {
+        transition: 0.3s ease-in-out;
+        opacity: 1;
+        font-family: "Outfit", sans-serif;
+        background: #520828;
+        margin: 0;
+        padding: 0;
+        color: white;
+        font-size: 20px;
+        overflow-x: hidden;
+        user-select: none; 
+        -webkit-tap-highlight-color: #00000000;
+        cursor: pointer;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    h1 {
+        font-family: "Syne", sans-serif;
+        font-size: 6rem;
+        font-weight: 600;
+        margin: 0;
+        text-align: center;
+    }
+
+    .container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        max-width: 100vw;
+        gap: 24px;
+        padding: 20px;
+        box-sizing: border-box;
+        text-align: center;
+    }
+
+    .album {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        width: fit-content;
+        margin: 0 auto;
+    }
+
+    .label {
+        width: 260px;
+        height: 260px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 1px 0 12px #520828;
+        z-index: 2;
+    }
+
+    .disk {
+        z-index: 1;
+        width: 240px;
+        height: 240px;
+        margin-left: -120px;
+        animation: rotate 10s linear infinite;
+    }
+
+    .rewards {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .answer {
+        font-size: 1.8rem; 
+        font-weight: 600;
+        margin: 0;
+    }
+
+    .artist, .by {
+        font-size: 1.5rem; 
+        font-weight: 400;
+        margin: 0;
+    }
+
+    .by {
+        color: #c9c9c9;
+    }
+
+    .stats {
+        font-family: "Syne", sans-serif;
+        font-weight: 700;
+        margin: 0;
+    }
+
+    .streaks {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+    }
+
+    .streaks img {
+        width: 60px;
+        height: 60px;
+    }
+
+    .streaks p {
+        margin: 0;
+        font-size: 1.5rem;
+    }
+
+    .streak-disk {
+        animation: rotate 10s linear infinite;
+    }
+
+    .bg-disk {
+        position: fixed;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: -1;
+        transition: 0.3s ease-in-out; 
+    }
+
+    #left {
+        left: -300px;
+        animation: rotate 10s linear infinite;
+    }
+
+    #right {
+        right: -300px;
+        animation: reversed 10s linear infinite;
+    }
+
+    .next {
+        color: white;
+        background: #520828;
+        border: 2px solid white;
+        padding: 12px 0;
+        width: 200px;
+        text-align: center;
+        box-sizing: border-box;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: 0.3s ease-in-out;
+        text-decoration: none;
+    }
+
+    .next:hover {
+        color: #520828;
+        background: white;
+    }
+
+    @keyframes rotate {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+
+    @keyframes reversed {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(-360deg); }
+    }
+
+    @media (max-width: 768px) {
+        h1 {
+            font-size: 3rem;
         }
-        .answer {
-            font-size: 1.8rem; 
-            margin-top: -20px;
-            font-weight: 600;
+
+        #left, #right {
+            display: none;
         }
-        .artist, .by {
-            font-size: 1.5rem; 
-            margin-top: -40px;
-            font-weight: 400;
-        }
-        .by {
-            color: #c9c9c9;
-        }
-        .stats {
-            font-family: "Syne", sans-serif;
-            font-weight: 700;
-        }
-        .streaks {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
+
+        body { 
+            height: 100vh;
             justify-content: center;
-            gap: 16px;
         }
-        .streaks img {
-            width: 60px;
-            height: 60px;
-        }
-        .streaks p {
+
+        .container {
             margin: 0;
-            font-size: 1.5rem;
+            padding: 10px;
+            gap: 15px;
         }
-        .streak-disk {
-            animation: rotate 10s linear infinite;
+
+        #mode { 
+            margin: 0 !important;
+            padding: 0 !important;
         }
-        .streak-hidden {
-            opacity: 0 !important;
-            visibility: hidden;
-            pointer-events: none;
+
+        .album { 
+            transform: scale(0.7); 
+            margin: -30px 0; 
         }
-        .desc {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            margin-top: 60px;
-            gap: 20px;
-        }
-        #left {
-            left: -300px;
-            animation: rotate 10s linear infinite;
-        }
-        #right {
-            right: -300px;
-            animation: reversed 10s linear infinite;
-        }
-        .bg-disk {
-            position: fixed;
-            top: 16.5%;
-            z-index: -1;
-            transition: 0.3s ease-in-out; 
-        }
+
+        .answer { font-size: 1.4rem; }
+        .by, .artist { font-size: 1.1rem; }
+        
         .next {
-            color: white;
-            background: #520828;
-            border: 2px solid white;
-            padding: 12px 0;
-            width: 15%;
-            text-align: center;
-            box-sizing: border-box;
-            border-radius: 8px;
-            font-weight: 600;
-            transition: 0.3s ease-in-out;
-            text-decoration: none;
+            width: 70%;
         }
-        .next:hover {
-            color: #520828;
-            background: white;
+
+        .label {
+            width: 260px;
+            height: 260px;
         }
-        @keyframes rotate {
-            from { 
-                transform: rotate(0deg); 
-            }
-            to {
-                transform: rotate(360deg); 
-            }
+
+        .disk {
+            width: 240px;
+            height: 240px;
         }
-        @keyframes reversed {
-            from {
-                transform: rotate(0deg);
-            }
-            to {
-                transform: rotate(-360deg);
-            }
-        }
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 3rem;
-            }
-            #left, #right {
-                opacity: 0;
-            }
-            body { 
-                height: 100dvh; 
-                overflow-x: hidden; 
-                display: flex; 
-                flex-direction: column; 
-            }
-            .label {
-                width: 280px; 
-                height: 300px;
-            }
-            .disk {
-                width: 280px; 
-                height: 280px; 
-            }
-            #mode { 
-                text-align: center; 
-                margin-top: -60px !important; 
-                font-size: 1.2rem; 
-                margin: 40px 0 20px 0;
-            }
-            .container {
-                margin-top: 60px;
-                margin-left: -40px !important;
-                gap: 20px;
-            }
-            .by, .artist {
-                font-size: 1.2rem; 
-                margin-top: -20px;
-            }
-            .timer p { 
-                font-size: 1.2rem; 
-                margin: 0; 
-            }
-            .album { 
-                transform: scale(0.65); 
-                margin: -35px 0; 
-            }
-            .next {
-                width: 40% !important;
-                padding: 12px 0;
-            }
-        }
-        @media (min-width: 769px) and (max-width: 1500px) {
-            #left, #right {
-                opacity: 0;
-            }
-        }
+    }
     </style>    
 <body>
     <img src="Assets/hard disk.png" alt="" class="bg-disk" id="right">
